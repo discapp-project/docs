@@ -4,10 +4,8 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 import Link from 'next/link';
-import { ChevronRight, ArrowLeft } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 import { Suspense } from 'react';
-import SearchBar from "@/components/searchBar";
-import { buildSearchIndex } from "@/lib/searchIndex";
 
 const sidebarSections = [
   {
@@ -146,36 +144,38 @@ async function DocContent({ params }: { params: Promise<{ slug: string }> }) {
 }
 
 export default function DocPage({ params }: PageProps) {
-  const searchIndex = buildSearchIndex();
-
   return (
-    <div className="min-h-screen bg-[#111214] text-zinc-300 flex flex-col font-sans">
-      <header className="border-b border-zinc-800/80 bg-[#111214] h-14 flex items-center justify-between px-6 sticky top-0 z-50">
-        <Link href="/" className="hover:opacity-80 transition-opacity">
-          <span className="font-extrabold tracking-wider text-[#acf6c8] text-base flex items-center">
-            <ArrowLeft className="w-4 h-4 inline-block mr-1.5"/> Back Home
-          </span>
-        </Link>
-
-        <SearchBar docs={searchIndex} />
-      </header>
-
-      <Suspense fallback={
-        <div className="flex-1 flex max-w-7xl w-full mx-auto animate-pulse">
-          <div className="w-72 bg-[#111214] border-r border-zinc-800/80 p-5 hidden md:block" />
-          <main className="flex-1 max-w-3xl px-6 md:px-12 py-10 space-y-6">
-            <div className="h-4 bg-zinc-800 rounded w-32" />
-            <div className="h-10 bg-zinc-800 rounded w-3/4" />
-            <div className="space-y-3 pt-4">
-              <div className="h-4 bg-zinc-800/60 rounded w-full" />
-              <div className="h-4 bg-zinc-800/60 rounded w-5/6" />
-              <div className="h-4 bg-zinc-800/60 rounded w-4/6" />
-            </div>
-          </main>
+    <Suspense fallback={
+      <div className="flex-1 flex max-w-7xl w-full mx-auto animate-pulse">
+        <div className="w-72 bg-[#111214] border-r border-zinc-800/80 p-5 hidden md:block space-y-6">
+          <div className="h-3 bg-zinc-800 rounded w-20" />
+          <div className="space-y-3 pl-3.5 border-l border-zinc-800">
+            <div className="h-4 bg-zinc-800/60 rounded w-28" />
+            <div className="h-4 bg-zinc-800/60 rounded w-24" />
+            <div className="h-4 bg-zinc-800/60 rounded w-32" />
+          </div>
+          <div className="h-3 bg-zinc-800 rounded w-16 pt-4" />
+          <div className="space-y-3 pl-3.5 border-l border-zinc-800">
+            <div className="h-4 bg-zinc-800/60 rounded w-24" />
+            <div className="h-4 bg-zinc-800/60 rounded w-28" />
+          </div>
         </div>
-      }>
-        <DocContent params={params} />
-      </Suspense>
-    </div>
+
+        <main className="flex-1 max-w-3xl px-6 md:px-12 py-10 space-y-6">
+          <div className="h-3 bg-zinc-800 rounded w-28" />
+          <div className="h-9 bg-zinc-800 rounded w-3/4" />
+          <div className="space-y-3 pt-4">
+            <div className="h-4 bg-zinc-800/50 rounded w-full" />
+            <div className="h-4 bg-zinc-800/50 rounded w-5/6" />
+            <div className="h-4 bg-zinc-800/50 rounded w-4/6" />
+            <div className="h-24 bg-zinc-800/30 rounded w-full mt-6" />
+            <div className="h-4 bg-zinc-800/50 rounded w-full" />
+            <div className="h-4 bg-zinc-800/50 rounded w-3/4" />
+          </div>
+        </main>
+      </div>
+    }>
+      <DocContent params={params} />
+    </Suspense>
   );
 }
