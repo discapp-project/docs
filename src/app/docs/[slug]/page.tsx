@@ -4,8 +4,10 @@ import matter from 'gray-matter';
 import { remark } from 'remark';
 import html from 'remark-html';
 import Link from 'next/link';
-import { ChevronRight, ExternalLink, Search, BookText, ArrowLeft } from 'lucide-react';
+import { ChevronRight, ArrowLeft } from 'lucide-react';
 import { Suspense } from 'react';
+import SearchBar from "@/components/searchBar";
+import { buildSearchIndex } from "@/lib/searchIndex";
 
 const sidebarSections = [
   {
@@ -106,7 +108,7 @@ async function DocContent({ params }: { params: Promise<{ slug: string }> }) {
                   return (
                     <div key={item.id} className="relative">
                       {isActive && (
-                        <span className="absolute -left-[15px] top-1/2 -translate-y-1/2 w-[2px] h-5 bg-[#acf6c8] rounded-r" />
+                        <span className="absolute -left-3.75 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-[#acf6c8] rounded-r" />
                       )}
                       <Link
                         href={`/docs/${item.id}`}
@@ -144,23 +146,18 @@ async function DocContent({ params }: { params: Promise<{ slug: string }> }) {
 }
 
 export default function DocPage({ params }: PageProps) {
+  const searchIndex = buildSearchIndex();
+
   return (
     <div className="min-h-screen bg-[#111214] text-zinc-300 flex flex-col font-sans">
-      <header className="border-b border-zinc-800/80 bg-[#111214] h-14 flex items-center justify-between px-6">
+      <header className="border-b border-zinc-800/80 bg-[#111214] h-14 flex items-center justify-between px-6 sticky top-0 z-50">
         <Link href="/" className="hover:opacity-80 transition-opacity">
-          <span className="font-extrabold tracking-wider text-[#acf6c8] text-base">
+          <span className="font-extrabold tracking-wider text-[#acf6c8] text-base flex items-center">
             <ArrowLeft className="w-4 h-4 inline-block mr-1.5"/> Back Home
           </span>
         </Link>
 
-        <div className="relative w-64 hidden sm:block">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-zinc-500" />
-          <input 
-            type="text" 
-            placeholder="Search docs..." 
-            className="w-full bg-[#16171a] border border-zinc-800 rounded-md py-1.5 pl-9 pr-3 text-xs text-zinc-200 placeholder-zinc-500 focus:outline-none focus:border-zinc-700"
-          />
-        </div>
+        <SearchBar docs={searchIndex} />
       </header>
 
       <Suspense fallback={<div className="p-10 text-zinc-500 text-sm">Loading documentation...</div>}>
