@@ -160,7 +160,20 @@ export default function DocPage({ params }: PageProps) {
         <SearchBar docs={searchIndex} />
       </header>
 
-      <Suspense fallback={<div className="p-10 text-zinc-500 text-sm">Loading documentation...</div>}>
+      <Suspense fallback={
+        <div className="flex-1 flex max-w-7xl w-full mx-auto animate-pulse">
+          <div className="w-72 bg-[#111214] border-r border-zinc-800/80 p-5 hidden md:block" />
+          <main className="flex-1 max-w-3xl px-6 md:px-12 py-10 space-y-6">
+            <div className="h-4 bg-zinc-800 rounded w-32" />
+            <div className="h-10 bg-zinc-800 rounded w-3/4" />
+            <div className="space-y-3 pt-4">
+              <div className="h-4 bg-zinc-800/60 rounded w-full" />
+              <div className="h-4 bg-zinc-800/60 rounded w-5/6" />
+              <div className="h-4 bg-zinc-800/60 rounded w-4/6" />
+            </div>
+          </main>
+        </div>
+      }>
         <DocContent params={params} />
       </Suspense>
     </div>
