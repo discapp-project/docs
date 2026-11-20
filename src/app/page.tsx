@@ -11,7 +11,7 @@ export default function LandingPage() {
         </span>
   
         <div className="flex items-center gap-4">
-          <a href="https://discord.gg/ymc3Ba4qk9" target="_blank" rel="noreferrer" className="text-xs font-medium text-zinc-400 hover:text-[#acf6c8] transition flex items-center gap-1">
+          <a href="https://discord.gg/zRrTVfuAMN" target="_blank" rel="noreferrer" className="text-xs font-medium text-zinc-400 hover:text-[#acf6c8] transition flex items-center gap-1">
             Join the Community
           </a>
           <a href="https://discapp.org" rel="noreferrer" className="text-xs font-medium text-zinc-400 hover:text-[#acf6c8] transition flex items-center gap-1">
