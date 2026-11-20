@@ -22,11 +22,9 @@ jobs:
           REPO: ${{ github.repository }}
           BRANCH: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
-          AVATAR: ${{ github.event.sender.avatar_url }}
         run: |
           jq -n \
             --arg username "Github | discapp-docs" \
-            --arg avatar_url "$AVATAR" \
             --arg title "$COMMIT_MSG" \
             --arg repo "$REPO" \
             --arg branch "$BRANCH" \
@@ -34,7 +32,6 @@ jobs:
             --arg commit_url "$COMMIT_URL" \
             '{
               username: $username,
-              avatar_url: $avatar_url,
               embeds: [{
                 title: $title,
                 description: ("Repository: [" + $repo + "](https://github.com/" + $repo + ")\nBranch: `" + $branch + "`\nAuthor: [" + $actor + "](https://github.com/" + $actor + ")\n\n[View Commit](" + $commit_url + ")"),
@@ -51,19 +48,16 @@ jobs:
           WEBHOOK_URL: ${{ secrets.WEBHOOK }}
           REPO: ${{ github.repository }}
           ACTOR: ${{ github.actor }}
-          AVATAR: ${{ github.event.sender.avatar_url }}
           STARS: ${{ github.event.repository.stargazers_count }}
         run: |
           jq -n \
             --arg username "Github | discapp-docs" \
-            --arg avatar_url "$AVATAR" \
             --arg title "⭐ A new star was added!" \
             --arg repo "$REPO" \
             --arg actor "$ACTOR" \
             --arg stars "$STARS" \
             '{
               username: $username,
-              avatar_url: $avatar_url,
               embeds: [{
                 title: $title,
                 description: ("[" + $actor + "](https://github.com/" + $actor + ") just starred [" + $repo + "](https://github.com/" + $repo + ")!\n\nTotal Stars: **" + $stars + "**"),
@@ -80,18 +74,15 @@ jobs:
           WEBHOOK_URL: ${{ secrets.WEBHOOK }}
           REPO: ${{ github.repository }}
           ACTOR: ${{ github.actor }}
-          AVATAR: ${{ github.event.sender.avatar_url }}
           FORK_URL: ${{ github.event.veegee.html_url || github.event.fork.html_url }}
         run: |
           jq -n \
             --arg username "Github | discapp-docs" \
-            --arg avatar_url "$AVATAR" \
             --arg title "🍴 A new fork was created!" \
             --arg repo "$REPO" \
             --arg actor "$ACTOR" \
             '{
               username: $username,
-              avatar_url: $avatar_url,
               embeds: [{
                 title: $title,
                 description: ("[" + $actor + "](https://github.com/" + $actor + ") has forked [" + $repo + "](https://github.com/" + $repo + ")!"),
@@ -111,12 +102,10 @@ jobs:
           PR_BODY: ${{ github.event.pull_request.body }}
           PR_URL: ${{ github.event.pull_request.html_url }}
           ACTOR: ${{ github.actor }}
-          AVATAR: ${{ github.event.sender.avatar_url }}
         run: |
           BODY="${PR_BODY:-*No description provided.*}"
           jq -n \
             --arg username "Github | discapp-docs" \
-            --arg avatar_url "$AVATAR" \
             --arg title "A new pull request has been $PR_ACTION!" \
             --arg pr_title "$PR_TITLE" \
             --arg actor "$ACTOR" \
@@ -124,7 +113,6 @@ jobs:
             --arg pr_url "$PR_URL" \
             '{
               username: $username,
-              avatar_url: $avatar_url,
               embeds: [{
                 title: $title,
                 description: ("**Title:** " + $pr_title + "\n**Author:** [" + $actor + "](https://github.com/" + $actor + ")\n\n" + $pr_body + "\n\n[View Pull Request](" + $pr_url + ")"),
